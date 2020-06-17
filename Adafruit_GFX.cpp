@@ -357,6 +357,29 @@ void Adafruit_GFX::drawRoundRect(int16_t x, int16_t y, int16_t w,
     endWrite();
 }
 
+void Adafruit_GFX::drawFirst(int16_t f){
+
+  int n = 7;
+  int r = frame * 64 / nFrames;
+  float rot = frame * 2*PI / nFrames;
+  for (int i=0; i<(n-1); i++)
+  {
+    float a = rot + i * 2*PI / n;
+    int x1 = 64 + cos(a) * r;
+    int y1 = 32 + sin(a) * r;
+    for (int j=i+1; j<n; j++)
+    {
+      a = rot + j * 2*PI / n;
+      int x2 = 64 + cos(a) * r;
+      int y2 = 32 + sin(a) * r;
+      drawLine(x1,y1, x2,y2, WHITE);
+    }
+  }
+  
+
+}
+
+
 // Fill a rounded rectangle
 void Adafruit_GFX::fillRoundRect(int16_t x, int16_t y, int16_t w,
         int16_t h, int16_t r, uint16_t color) {

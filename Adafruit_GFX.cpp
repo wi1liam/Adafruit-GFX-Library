@@ -217,6 +217,64 @@ void Adafruit_GFX::drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1,
     }
 }
 
+void Adafruit_GFX::drawShield(int16_t x0, int16_t y0, int16_t r0, uint16_t color) {
+  int xa, ya;
+  int xb, yb;
+  int xc, yc;
+  int xd, yd;
+  int xe, ye;
+  xa = x0;
+  ya = y0 - r0;
+  xb = x0 - r0 * sin(PI / 180 * 72);
+  yb = y0 + r0 * -(cos(PI / 180 * 72));
+  xc = x0 - r0 * -(sin(PI / 180 * 36));
+  yc = y0 - r0 * -(cos(PI / 180 * 36));
+  xd = x0 + r0 * -(sin(PI / 180 * 36));
+  yd = y0 - r0 * -(cos(PI / 180 * 36));
+  xe = x0 + r0 * sin(PI / 180 * 72);
+  ye = y0 + r0 * -(cos(PI / 180 * 72));
+  startWrite();
+  display.drawLine(xa, ya, xc, yc, WHITE);
+  display.drawLine(xa, ya, xd, yd, WHITE);
+  display.drawLine(xb, yb, xc, yc, WHITE);
+  display.drawLine(xb, yb, xe, ye, WHITE);
+  display.drawLine(xd, yd, xe, ye, WHITE);
+
+  int r1 = r0+5;
+  int f = 1 - r1;
+  int ddF_x = 1;
+  int ddF_y = -2 * r1;
+  int x = 0;
+  int y = r1;
+
+  display.writePixel(x0  , y0+r1, WHITE);
+  display.writePixel(x0  , y0-r1, WHITE);
+  display.writePixel(x0+r1, y0  , WHITE);
+  display.writePixel(x0-r1, y0  , WHITE);
+
+  while (x<y) {
+    if (f >= 0) {
+      y--;
+      ddF_y += 2;
+      f += ddF_y;
+    }
+    x++;
+    ddF_x += 2;
+    f += ddF_x;
+
+    display.writePixel(x0 + x, y0 + y, WHITE);
+    display.writePixel(x0 - x, y0 + y, WHITE);
+    display.writePixel(x0 + x, y0 - y, WHITE);
+    display.writePixel(x0 - x, y0 - y, WHITE);
+    display.writePixel(x0 + y, y0 + x, WHITE);
+    display.writePixel(x0 - y, y0 + x, WHITE);
+    display.writePixel(x0 + y, y0 - x, WHITE);
+    display.writePixel(x0 - y, y0 - x, WHITE);
+    endWrite();
+  }
+
+}
+
 // Draw a circle outline
 void Adafruit_GFX::drawCircle(int16_t x0, int16_t y0, int16_t r,
         uint16_t color) {
@@ -356,6 +414,7 @@ void Adafruit_GFX::drawRoundRect(int16_t x, int16_t y, int16_t w,
     drawCircleHelper(x+r    , y+h-r-1, r, 8, color);
     endWrite();
 }
+
 
 void Adafruit_GFX::drawFirst(int16_t f){
 

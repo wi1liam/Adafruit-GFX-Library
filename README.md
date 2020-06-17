@@ -1,2 +1,2 @@
-# Lot5-Adafruit-GFX-Library
+# Lot5-Adafruit-GFX
 
